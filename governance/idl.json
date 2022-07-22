@@ -1,6 +1,6 @@
 {
 	"version": "0.0.0",
-	"name": "",
+	"name": "governance",
 	"docs": [],
 	"ref": "https://github.com/solana-labs/solana-program-library/tree/4d1f8169a97a6df10ba5027d2036a303317fc7a0",
 	"instructions": [
@@ -2116,56 +2116,6 @@
 			]
 		},
 		{
-			"name": "VoteThreshold",
-			"type": {
-				"kind": "enum",
-				"variants": [
-					{
-						"name": "YesVotePercentage",
-						"fields": [
-							{
-								"name": "F0",
-								"type": "u8",
-								"docs": [
-									"Voting threshold of Yes votes in % required to tip the vote (Approval Quorum)",
-									"It's the percentage of tokens out of the entire pool of governance tokens eligible to vote",
-									"Note: If the threshold is below or equal to 50% then an even split of votes ex: 50:50 or 40:40 is always resolved as Defeated",
-									"In other words a '+1 vote' tie breaker is always required to have a successful vote"
-								]
-							}
-						]
-					},
-					{
-						"name": "QuorumPercentage",
-						"fields": [
-							{
-								"name": "F0",
-								"type": "u8",
-								"docs": [
-									"The minimum number of votes in % out of the entire pool of governance tokens eligible to vote",
-									"which must be cast for the vote to be valid",
-									"Once the quorum is achieved a simple majority (50%+1) of Yes votes is required for the vote to succeed",
-									"Note: Quorum is not implemented in the current version"
-								]
-							}
-						]
-					},
-					{
-						"name": "Disabled",
-						"docs": [
-							"Disabled vote threshold indicates the given voting population (community or council) is not allowed to vote",
-							"on proposals for the given Governance"
-						]
-					}
-				]
-			},
-			"docs": [
-				"The type of the vote threshold used to resolve a vote on a Proposal",
-				"",
-				"Note: In the current version only YesVotePercentage and Disabled thresholds are supported"
-			]
-		},
-		{
 			"name": "VoteTipping",
 			"type": {
 				"kind": "enum",
@@ -2263,44 +2213,6 @@
 			},
 			"docs": [
 				"Transaction execution flags defining how instructions are executed for a Proposal"
-			]
-		},
-		{
-			"name": "MintMaxVoteWeightSource",
-			"type": {
-				"kind": "enum",
-				"variants": [
-					{
-						"name": "SupplyFraction",
-						"fields": [
-							{
-								"name": "F0",
-								"type": "u64",
-								"docs": [
-									"Fraction (10^10 precision) of the governing mint supply is used as max vote weight",
-									"The default is 100% (10^10) to use all available mint supply for voting"
-								]
-							}
-						]
-					},
-					{
-						"name": "Absolute",
-						"fields": [
-							{
-								"name": "F0",
-								"type": "u64",
-								"docs": [
-									"Absolute value, irrelevant of the actual mint supply, is used as max vote weight",
-									"Note: this option is not implemented in the current version"
-								]
-							}
-						]
-					}
-				]
-			},
-			"docs": [
-				"The source of max vote weight used for voting",
-				"Values below 100% mint supply can be used when the governing token is fully minted but not distributed yet"
 			]
 		},
 		{
@@ -3047,41 +2959,6 @@
 			]
 		},
 		{
-			"name": "VoteWeightV1",
-			"type": {
-				"kind": "enum",
-				"variants": [
-					{
-						"name": "Yes",
-						"fields": [
-							{
-								"name": "F0",
-								"type": "u64",
-								"docs": [
-									"Yes vote"
-								]
-							}
-						]
-					},
-					{
-						"name": "No",
-						"fields": [
-							{
-								"name": "F0",
-								"type": "u64",
-								"docs": [
-									"No vote"
-								]
-							}
-						]
-					}
-				]
-			},
-			"docs": [
-				"Vote  with number of votes"
-			]
-		},
-		{
 			"name": "VoteRecordV1",
 			"type": {
 				"kind": "struct",
@@ -3136,7 +3013,7 @@
 			"name": "NativeTreasury",
 			"type": {
 				"kind": "struct",
-				"fields": null
+				"fields": []
 			},
 			"docs": [
 				"Treasury account",
@@ -4064,6 +3941,129 @@
 		}
 	],
 	"types": [
+		{
+			"name": "VoteWeightV1",
+			"type": {
+				"kind": "enum",
+				"variants": [
+					{
+						"name": "Yes",
+						"fields": [
+							{
+								"name": "F0",
+								"type": "u64",
+								"docs": [
+									"Yes vote"
+								]
+							}
+						]
+					},
+					{
+						"name": "No",
+						"fields": [
+							{
+								"name": "F0",
+								"type": "u64",
+								"docs": [
+									"No vote"
+								]
+							}
+						]
+					}
+				]
+			},
+			"docs": [
+				"Vote  with number of votes"
+			]
+		},
+		{
+			"name": "MintMaxVoteWeightSource",
+			"type": {
+				"kind": "enum",
+				"variants": [
+					{
+						"name": "SupplyFraction",
+						"fields": [
+							{
+								"name": "F0",
+								"type": "u64",
+								"docs": [
+									"Fraction (10^10 precision) of the governing mint supply is used as max vote weight",
+									"The default is 100% (10^10) to use all available mint supply for voting"
+								]
+							}
+						]
+					},
+					{
+						"name": "Absolute",
+						"fields": [
+							{
+								"name": "F0",
+								"type": "u64",
+								"docs": [
+									"Absolute value, irrelevant of the actual mint supply, is used as max vote weight",
+									"Note: this option is not implemented in the current version"
+								]
+							}
+						]
+					}
+				]
+			},
+			"docs": [
+				"The source of max vote weight used for voting",
+				"Values below 100% mint supply can be used when the governing token is fully minted but not distributed yet"
+			]
+		},
+		{
+			"name": "VoteThreshold",
+			"type": {
+				"kind": "enum",
+				"variants": [
+					{
+						"name": "YesVotePercentage",
+						"fields": [
+							{
+								"name": "F0",
+								"type": "u8",
+								"docs": [
+									"Voting threshold of Yes votes in % required to tip the vote (Approval Quorum)",
+									"It's the percentage of tokens out of the entire pool of governance tokens eligible to vote",
+									"Note: If the threshold is below or equal to 50% then an even split of votes ex: 50:50 or 40:40 is always resolved as Defeated",
+									"In other words a '+1 vote' tie breaker is always required to have a successful vote"
+								]
+							}
+						]
+					},
+					{
+						"name": "QuorumPercentage",
+						"fields": [
+							{
+								"name": "F0",
+								"type": "u8",
+								"docs": [
+									"The minimum number of votes in % out of the entire pool of governance tokens eligible to vote",
+									"which must be cast for the vote to be valid",
+									"Once the quorum is achieved a simple majority (50%+1) of Yes votes is required for the vote to succeed",
+									"Note: Quorum is not implemented in the current version"
+								]
+							}
+						]
+					},
+					{
+						"name": "Disabled",
+						"docs": [
+							"Disabled vote threshold indicates the given voting population (community or council) is not allowed to vote",
+							"on proposals for the given Governance"
+						]
+					}
+				]
+			},
+			"docs": [
+				"The type of the vote threshold used to resolve a vote on a Proposal",
+				"",
+				"Note: In the current version only YesVotePercentage and Disabled thresholds are supported"
+			]
+		},
 		{
 			"name": "GovernanceConfig",
 			"type": {
